@@ -1,0 +1,46 @@
+<div class="container">
+  <table class='table'>
+    <tr>
+      <td><%= image_tag @user.get_profile_image, size: '100x100' %></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><%= @user.name %></td>
+    </tr>
+    <tr>
+      <th>introduction</th>
+      <td><%= @user.introduction %></td>
+    </tr>
+    <tr>
+      <th>follows</th>
+      <td><%= link_to @user.followings.count, followings_user_path(@user) %></td>
+    </tr>
+    <tr>
+      <th>followers</th>
+      <td><%= link_to @user.followers.count, followers_user_path(@user) %></td>
+    </tr>
+  </table>
+  
+  <div class="row mt-4">
+    <div class="col-md-3">
+      <h2>会社情報</h2>
+      <p><strong>企業名:</strong> <%= @user.company %></p>
+      <p><strong>業種:</strong> <%= @user.industry %></p>
+    </div>
+  </div>
+</div>
+
+  <div class='row'>
+    <% if current_user != @user %>
+      <div class="col">
+        <%= render "relationships/btn", user: @user %>
+      </div>
+    <% else %>
+      <div class="col">
+        <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary btn-block edit_user_#{user.id}" do %>
+          <i class="fas fa-user-cog"></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

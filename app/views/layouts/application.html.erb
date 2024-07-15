@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>BuildConnect</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CommunityApp</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,6 +10,15 @@
   </head>
 
   <body>
+    <nav>
+      <% if user_signed_in? %>
+        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to 'ログイン', new_user_session_path %> |
+        <%= link_to 'サインアップ', new_user_registration_path %>
+      <% end %>
+    </nav>
+
     <%= yield %>
   </body>
 </html>
