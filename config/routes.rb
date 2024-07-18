@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  namespace :admin do
+namespace :admin do
     resources :genres, only: [:index, :edit]
     resources :homes, only: [:top]
     resources :posts, only: [:index, :destroy]
@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :users, only: [:mypage, :show, :edit, :update, :destroy] do
+  resources :users, only: [:show, :edit, :update, :destroy] do
     member do
       get :followings
       get :followers
@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :relationships, only: [:create, :destroy]
 
   get 'homes/about'
+  get 'search', to: 'search#index'
 
   root 'homes#top'
 end

@@ -13,6 +13,8 @@
  *= require_tree .
  *= require_self
  */
+ 
+
 .my-page {
   font-weight: bold;
   /* その他のスタイルも必要に応じて追加 */

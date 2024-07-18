@@ -1,24 +1,82 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>CommunityApp</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>WorkGithub</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <script src="https://kit.fontawesome.com/0edaaf4d35.js" crossorigin="anonymous"></script>
+  <!-- 各自のフォントURLを設定してください -->
+</head>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+<body>
+  <header>
+    <div class="container border-bottom">
+      <div class="row">
+        <div class="mx-5">
+          <% if admin_signed_in? %>
+            <%= image_tag("icon.jpg", size: "120x150", class: "icon-image") %>
+          <% elsif user_signed_in? %>
+            <%= link_to root_path do %>
+              <%= image_tag("icon.jpg", size: "120x150", class: "icon-image") %>
+            <% end %>
+          <% else %>
+            <%= link_to root_path do %>
+              <%= image_tag("icon.jpg", size: "120x150", class: "icon-image") %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="col">
+          <% if user_signed_in? %>
+            <div class="col mt-4 pt-3 text-center">
+              <p>ようこそ、<%= current_user.last_name %>さん！</p>
+            </div>
+          <% end %>
+        </div>
 
-  <body>
-    <nav>
-      <% if user_signed_in? %>
-        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
-      <% else %>
-        <%= link_to 'ログイン', new_user_session_path %> |
-        <%= link_to 'サインアップ', new_user_registration_path %>
-      <% end %>
-    </nav>
+        <div class="mt-4">
+          <ul class="d-flex list-unstyled justify-content-end">
+            <% if admin_signed_in? %>
+              <%= render 'layouts/admin_header' %>
+            <% elsif user_signed_in? %>
+              <%= render 'layouts/userheader' %>
+            <% else %>
+              <%= render 'layouts/userheader_guest' %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
 
+      <!-- 検索フォーム -->
+      <div class="ml-auto mb-2 d-flex justify-content-end">
+        <%= form_with url: search_path, method: :get, local: true, class: 'form-inline' do %>
+          <div class="input-group">
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        <% end %>
+      </div>
+      <!-- 検索フォーム終わり -->
+    </div>
+  </header>
+
+  <main>
     <%= yield %>
-  </body>
+
+    <div style="height: 190px;"></div>
+  </main>
+
+  <footer class="fixed-bottom" style="background-color: white;">
+    <div class="container my-3 border-top text-center">
+      <div class="py-5">
+        <h3 style="font-family: Monotype Corsiva; color: gray;">buildconnect</h3>
+      </div>
+    </div>
+  </footer>
+</body>
 </html>
