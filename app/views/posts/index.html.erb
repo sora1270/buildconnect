@@ -1,2 +1,29 @@
-<h1>Posts#index</h1>
-<p>Find me in app/views/posts/index.html.erb</p>
+<h1 class="text-center">投稿一覧</h1>
+
+<div class="container">
+  <% if @posts.empty? %>
+    <p class="text-center">まだ投稿がありません。</p>
+  <% else %>
+    <div class="row">
+      <% @posts.each do |post| %>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><%= post.title %></h5>
+              <p class="card-text"><%= post.content.truncate(100) %></p>
+              <p class="card-text">
+                <small class="text-muted">
+                  業種: <%= post.industry %><br>
+                  期間: <%= post.duration %><br>
+                  予算: <%= post.budget %><br>
+                  場所: <%= post.location %>
+                </small>
+              </p>
+              <a href="<%= post_path(post) %>" class="btn btn-primary">詳細</a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
