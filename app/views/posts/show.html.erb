@@ -1,6 +1,32 @@
-<h1><%= @post.title %></h1>
-<p><%= @post.content %></p>
-<p>業種: <%= @post.industry %></p>
-<p>期間: <%= @post.duration %></p>
-<p>予算: <%= @post.budget %></p>
-<p>場所: <%= @post.location %></p>
+<div class="container mt-5">
+  <div class="row">
+    <!-- 投稿者のプロフィール情報 -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">投稿者のプロフィール</h3>
+          <p><strong>名前:</strong> <%= @post.user.full_name %></p>
+          <p><strong>会社名:</strong> <%= @post.user.company_name %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 投稿の詳細情報 -->
+    <div class="col-md-8">
+      <h1 class="text-center"><%= @post.title %></h1>
+      <p><strong>業種:</strong> <%= @post.industry %></p>
+      <p><strong>期間:</strong> <%= @post.duration %></p>
+      <p><strong>場所:</strong> <%= @post.location %></p>
+      <p><strong>連絡先:</strong> <%= @post.contact_info %></p>
+      <p><strong>概要:</strong> <%= @post.content %></p>
+      <p><small><%= @post.created_at.strftime("%Y-%m-%d %H:%M") %></small></p>
+
+      <% if @post.user == current_user %>
+        <div class="d-flex justify-content-start mt-2">
+          <%= link_to "編集", edit_post_path(@post), class: "btn btn-secondary me-2" %>
+          <%= button_to "削除", post_path(@post), method: :delete, class: "btn btn-danger", data: { confirm: "本当に削除しますか？" } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

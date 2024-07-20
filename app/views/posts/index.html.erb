@@ -1,29 +1,35 @@
-<h1 class="text-center">投稿一覧</h1>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center">協力業者募集</h1>
 
-<div class="container">
-  <% if @posts.empty? %>
-    <p class="text-center">まだ投稿がありません。</p>
-  <% else %>
-    <div class="row">
-      <% @posts.each do |post| %>
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title"><%= post.title %></h5>
-              <p class="card-text"><%= post.content.truncate(100) %></p>
-              <p class="card-text">
-                <small class="text-muted">
-                  業種: <%= post.industry %><br>
-                  期間: <%= post.duration %><br>
-                  予算: <%= post.budget %><br>
-                  場所: <%= post.location %>
-                </small>
-              </p>
-              <a href="<%= post_path(post) %>" class="btn btn-primary">詳細</a>
-            </div>
-          </div>
-        </div>
-      <% end %>
+      <div class="button-container text-center mb-4">
+        <%= link_to "新しい投稿", new_post_path, class: "link-button btn btn-primary" %>
+      </div>
+
+      <ul class="list-group">
+        <% @posts.each do |post| %>
+          <li class="list-group-item mb-3">
+            <h4><%= link_to post.title, post_path(post) %></h4>
+            <ul class="list-unstyled">
+              <div class="card-body text-muted">
+                <li><strong>募集業種:</strong> <%= post.industry %></li>
+                <li><strong>期間:</strong> <%= post.duration %></li>
+                <li><strong>場所:</strong> <%= post.location %></li>
+              </div>
+            </ul>
+            <span>
+              <small><%= post.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+            </span>
+            <% if post.user == current_user %>
+              <div class="d-flex justify-content-start mt-2">
+                <%= link_to "編集", edit_post_path(post), class: "btn btn-secondary me-2" %>
+                <%= button_to "削除", post_path(post), method: :delete, class: "btn btn-danger", data: { confirm: "本当に削除しますか？" } %>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
     </div>
-  <% end %>
+  </div>
 </div>

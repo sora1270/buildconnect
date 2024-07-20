@@ -7,10 +7,22 @@
       <div class="row">
         <% if @posts.any? %>
           <% @posts.each do |post| %>
-            <div class="col mt-3">
-              <%= link_to post_path(post) do %>
-                <p><%= post.name %></p>
-              <% end %>
+            <div class="col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= link_to post.title, post_path(post) %>
+                  </h5>
+                  <p class="card-text">
+                    <strong>募集業種:</strong> <%= post.industry %><br>
+                    <strong>期間:</strong> <%= post.duration %><br>
+                    <strong>場所:</strong> <%= post.location %>
+                  </p>
+                </div>
+                <div class="card-footer text-muted">
+                  <small>投稿日: <%= post.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+                </div>
+              </div>
             </div>
           <% end %>
         <% else %>

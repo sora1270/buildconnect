@@ -3,10 +3,12 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.all
+    @posts = Post.order(created_at: :desc)
   end
 
   def show
+    @post = Post.find(params[:id])
+    @user = @post.user
   end
 
   def new
@@ -14,10 +16,11 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.new(post_params)
     if @post.save
       redirect_to @post, notice: '投稿が成功しました。'
     else
+      Rails.logger.debug "Post Errors: #{@post.errors.full_messages.join(', ')}"
       render :new
     end
   end
@@ -45,6 +48,6 @@ class PostsController < ApplicationController
   end
   
   def post_params
-   params.require(:post).permit(:title, :content, :industry, :duration, :budget, :location)
+    params.require(:post).permit(:title, :content, :industry, :duration, :location, :contact_info)
   end
 end

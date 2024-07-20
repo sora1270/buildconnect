@@ -1,6 +1,6 @@
 class HomesController < ApplicationController
   def top
-    @posts = Post.all # または必要なクエリを使って投稿データを取得する
+    @posts = Post.order(created_at: :desc).limit(4)
   end
 
   def about

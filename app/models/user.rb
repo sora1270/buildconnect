@@ -36,4 +36,8 @@ class User < ApplicationRecord
   def following?(user)
     followings.include?(user)
   end
+
+  def full_name
+    "#{last_name} #{first_name}".strip
+  end
 end

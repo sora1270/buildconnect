@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
 
   # Posts routes for general users
-  resources :posts, only: [:new, :index, :show, :edit, :create, :update, :destroy]
+  resources :posts, except: [:destroy] # except を使ってdestroyを除外
 
   # Companies routes
   resources :companies, only: [:new]
@@ -27,7 +27,12 @@ Rails.application.routes.draw do
   end
 
   # Relationships routes
-  resources :relationships, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy] do
+    collection do
+      delete ':user_id', to: 'relationships#destroy', as: :destroy_for_user
+      post ':user_id', to: 'relationships#create', as: :create_for_user
+    end
+  end
 
   # Static pages and search
   get 'homes/about'
