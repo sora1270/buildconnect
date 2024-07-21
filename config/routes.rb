@@ -7,11 +7,15 @@ Rails.application.routes.draw do
   end
 
   # Posts routes for general users
-  resources :posts, except: [:destroy] # except を使ってdestroyを除外
-
+  resources :posts, except: [:destroy] do
+    resources :comments, only: [:create, :destroy]
+  end
+  
   # Companies routes
   resources :companies, only: [:new]
-
+  
+  resources :favorites, only: [:create, :destroy]
+  
   # Devise for user authentication
   devise_for :users
 
@@ -27,12 +31,8 @@ Rails.application.routes.draw do
   end
 
   # Relationships routes
-  resources :relationships, only: [:create, :destroy] do
-    collection do
-      delete ':user_id', to: 'relationships#destroy', as: :destroy_for_user
-      post ':user_id', to: 'relationships#create', as: :create_for_user
-    end
-  end
+  resources :relationships, only: [:create, :destroy]
+  
 
   # Static pages and search
   get 'homes/about'

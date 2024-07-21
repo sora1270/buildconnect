@@ -14,10 +14,10 @@
           <%= image_tag post.user.get_profile_image, size:'50x50' %>
           <% end %>
         </td>
-        <td><%= link_to post.title,post, class: "post_#{post.id}" %></td>
-        <td><%= post.body %></td>
+        <td><%= link_to post.title, post, class: "post_#{post.id}" %></td>
+        <td><%= post.content %></td> <!-- 修正: `body` から `content` に変更 -->
         <td class=<%= "favorite-" + post.id.to_s %> >
-            <%= render "favorites/btn", post: post %>
+          <%= render "favorites/btn", post: post %>
         </td>
         <td><%= render "post_comments/counter", post: post %></td>
       </tr>

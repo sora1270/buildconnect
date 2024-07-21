@@ -16,6 +16,8 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image
 
+  validates :last_name, :first_name, presence: true
+
   def get_profile_image
     if profile_image.attached?
       profile_image

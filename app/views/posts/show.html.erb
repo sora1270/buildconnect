@@ -5,7 +5,7 @@
       <div class="card">
         <div class="card-body">
           <h3 class="card-title">投稿者のプロフィール</h3>
-          <p><strong>名前:</strong> <%= @post.user.full_name %></p>
+          <p><strong>名前:</strong> <%= link_to @post.user.full_name, user_path(@post.user) %></p>
           <p><strong>会社名:</strong> <%= @post.user.company_name %></p>
         </div>
       </div>
@@ -26,6 +26,42 @@
           <%= link_to "編集", edit_post_path(@post), class: "btn btn-secondary me-2" %>
           <%= button_to "削除", post_path(@post), method: :delete, class: "btn btn-danger", data: { confirm: "本当に削除しますか？" } %>
         </div>
+      <% end %>
+
+      <!-- コメント一覧 -->
+      <div class="comments mt-4">
+        <h3>コメント</h3>
+        <% @post.comments.each do |comment| %>
+          <div class="card mb-2">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <%= image_tag comment.user.get_profile_image, size: '50x50', class: 'img-thumbnail me-2' %>
+                <p class="mb-0"><strong><%= link_to comment.user.full_name, user_path(comment.user) %></strong></p>
+              </div>
+              <p><%= comment.content %></p>
+              <% if comment.user == current_user %>
+                <%= button_to "削除", post_comment_path(@post, comment), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "本当に削除しますか？" } %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- コメントフォーム -->
+      <% if user_signed_in? %>
+        <div class="comment-form mt-4">
+          <%= form_with(model: [ @post, @post.comments.build ], local: true) do |form| %>
+            <div class="form-group">
+              <%= form.label :content, "コメントを追加" %>
+              <%= form.text_area :content, class: "form-control", rows: 3 %>
+            </div>
+            <div class="form-group mt-2">
+              <%= form.submit "コメントする", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p>コメントするには<a href="<%= new_user_registration_path %>">会員登録</a>または<a href="<%= new_user_session_path %>">ログイン</a>してください。</p>
       <% end %>
     </div>
   </div>
