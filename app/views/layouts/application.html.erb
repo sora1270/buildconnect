@@ -15,7 +15,7 @@
     <div class="container border-bottom">
       <div class="row">
         <div class="mx-5">
-          <% if admin_signed_in? %>
+          <% if admin_admin_signed_in? %>
             <%= image_tag("icon.jpg", size: "120x150", class: "icon-image") %>
           <% elsif user_signed_in? %>
             <%= link_to root_path do %>
@@ -37,7 +37,7 @@
 
         <div class="mt-4">
           <ul class="d-flex list-unstyled justify-content-end">
-            <% if admin_signed_in? %>
+            <% if admin_admin_signed_in? %>
               <%= render 'layouts/admin_header' %>
             <% elsif user_signed_in? %>
               <%= render 'layouts/userheader' %>

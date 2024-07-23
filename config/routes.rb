@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # Admin namespace
   namespace :admin do
+    devise_for :admins, controllers: { sessions: 'admin/sessions' }
     resources :genres, only: [:index, :edit]
     resources :homes, only: [:top]
     resources :posts, only: [:index, :show, :new, :create, :edit, :update, :destroy]
@@ -13,9 +14,7 @@ Rails.application.routes.draw do
   
   # Companies routes
   resources :companies, only: [:new]
-  
-  resources :favorites, only: [:create, :destroy]
-  
+
   # Devise for user authentication
   devise_for :users
 
@@ -32,7 +31,6 @@ Rails.application.routes.draw do
 
   # Relationships routes
   resources :relationships, only: [:create, :destroy]
-  
 
   # Static pages and search
   get 'homes/about'
