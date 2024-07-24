@@ -15,7 +15,7 @@
     <div class="container border-bottom">
       <div class="row">
         <div class="mx-5">
-          <% if admin_admin_signed_in? %>
+          <% if admin_signed_in? %>
             <%= image_tag("icon.jpg", size: "120x150", class: "icon-image") %>
           <% elsif user_signed_in? %>
             <%= link_to root_path do %>
@@ -37,7 +37,7 @@
 
         <div class="mt-4">
           <ul class="d-flex list-unstyled justify-content-end">
-            <% if admin_admin_signed_in? %>
+            <% if admin_signed_in? %>
               <%= render 'layouts/admin_header' %>
             <% elsif user_signed_in? %>
               <%= render 'layouts/userheader' %>
@@ -51,12 +51,10 @@
       <!-- 検索フォーム -->
       <div class="ml-auto mb-2 d-flex justify-content-end">
         <%= form_with url: search_path, method: :get, local: true, class: 'form-inline' do %>
-          <div class="input-group">
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-          </div>
+        <div class="input-group">
+          <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </div>
         <% end %>
       </div>
       <!-- 検索フォーム終わり -->

@@ -1,20 +1,36 @@
 class Admin::PostsController < ApplicationController
-  before_action :authenticate_user!
   before_action :authenticate_admin!
-  before_action :set_post, only: [:destroy]
 
   def index
     @posts = Post.all
   end
 
+  def show
+    @post = Post.find(params[:id])
+  end
+
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      redirect_to admin_post_path(@post), notice: '投稿が更新されました。'
+    else
+      render :edit
+    end
+  end
+
   def destroy
+    @post = Post.find(params[:id])
     @post.destroy
     redirect_to admin_posts_path, notice: '投稿が削除されました。'
   end
 
   private
 
-  def set_post
-    @post = Post.find(params[:id])
+  def post_params
+    params.require(:post).permit(:title, :content)
   end
 end

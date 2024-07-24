@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user! # すべてのアクションでユーザーが認証されていることを確認
+  
 
   #helper_method :admin_signed_in? # Devise ヘルパーをビューで使用可能にする
 

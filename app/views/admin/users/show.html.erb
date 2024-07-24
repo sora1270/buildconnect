@@ -1,2 +1,48 @@
-<h1>Admin::Users#show</h1>
-<p>Find me in app/views/admin/users/show.html.erb</p>
+<div class="container mt-5">
+  <h1 class="text-center mb-4">ユーザー詳細</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h2><%= @user.full_name %> (<%= @user.full_name_kana %>)</h2>
+        </div>
+        <div class="card-body">
+          <% if @user.profile_image.attached? %>
+            <%= image_tag @user.get_profile_image, alt: @user.full_name, class: "img-thumbnail mb-3", size: "150x150" %>
+          <% else %>
+            <%= image_tag 'no_image.jpg', alt: 'デフォルト画像', class: "img-thumbnail mb-3", size: "150x150" %>
+          <% end %>
+          <p><strong>電話番号:</strong> <%= @user.phone_number %></p>
+          <p><strong>会社名:</strong> <%= @user.company_name %></p>
+          <p><strong>業種:</strong> <%= @user.industry %></p>
+          <p><strong>メールアドレス:</strong> <%= @user.email %></p>
+        </div>
+        <div class="card-footer text-right">
+          <%= link_to '戻る', admin_users_path, class: 'btn btn-secondary' %>
+          <%= link_to '削除', admin_user_path(@user), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 投稿一覧 -->
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h2 class="text-center mb-4">投稿一覧</h2>
+          <div class="row">
+            <% @posts.each do |post| %>
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-body">
+                <h5 class="card-title"><%= post.title %></h5>
+                <p class="card-text"><%= post.content.truncate(100) %></p>
+                <%= link_to '詳細', admin_post_path(post), class: 'btn btn-primary' %>
+                </div>
+              </div>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>

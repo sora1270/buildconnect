@@ -29,3 +29,11 @@
     color: #666666; /* 文字色を灰色に設定 */
 }
 
+.profile-image {
+  max-width: 80px; /* 画像の最大幅を設定 */
+  max-height: 80px; /* 画像の最大高さを設定 */
+  width: auto; /* 幅を自動調整 */
+  height: auto; /* 高さを自動調整 */
+  object-fit: cover; /* 画像が領域に収まるように調整 */
+  border-radius: 50%; /* 丸い画像にする */
+}

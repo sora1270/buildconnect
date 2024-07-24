@@ -1,0 +1,41 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">検索結果</h1>
+  <div class="row">
+    <% if @model == 'user' %>
+      <div class="col-md-6">
+        <h3>ユーザー検索結果</h3>
+        <% if @records.any? %>
+          <ul class="list-group">
+            <% @records.each do |user| %>
+              <li class="list-group-item">
+                <%= link_to user.full_name, admin_user_path(user) %>
+                <p class="mb-0">メールアドレス: <%= user.email %></p>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p>ユーザーが見つかりませんでした。</p>
+        <% end %>
+      </div>
+    <% elsif @model == 'post' %>
+      <div class="col-md-6">
+        <h3>投稿検索結果</h3>
+        <% if @records.any? %>
+          <ul class="list-group">
+            <% @records.each do |post| %>
+              <li class="list-group-item">
+                <%= link_to post.title, admin_post_path(post) %>
+                <p class="mb-0">作成者: <%= post.user.full_name %></p>
+                <p class="mb-0">内容: <%= post.content.truncate(100) %></p>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p>投稿が見つかりませんでした。</p>
+        <% end %>
+      </div>
+    <% else %>
+      <p>無効な検索モデルです。</p>
+    <% end %>
+  </div>
+</div>

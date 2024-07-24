@@ -17,7 +17,8 @@ class User < ApplicationRecord
   has_one_attached :profile_image
 
   validates :last_name, :first_name, presence: true
-
+  validates :phone_number, presence: true, allow_blank: true
+  
   def get_profile_image
     if profile_image.attached?
       profile_image
@@ -41,5 +42,23 @@ class User < ApplicationRecord
 
   def full_name
     "#{last_name} #{first_name}".strip
+  end
+  
+  def full_name_kana
+    "#{last_name_kana} #{first_name_kana}".strip
+  end
+  
+  def self.search_for(content, method)
+    content ||= ''  # contentがnilの場合は空文字列を代入
+
+    if method == 'perfect'
+      User.where('full_name = ? OR email = ?', content, content)
+    elsif method == 'forward'
+      User.where('full_name LIKE ? OR email LIKE ?', "#{content}%", "#{content}%")
+    elsif method == 'backward'
+      User.where('full_name LIKE ? OR email LIKE ?', "%#{content}", "%#{content}")
+    else
+      User.where('full_name LIKE ? OR email LIKE ?', "%#{content}%", "%#{content}%")
+    end
   end
 end

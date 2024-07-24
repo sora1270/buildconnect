@@ -1,0 +1,36 @@
+<div class="container">
+  <h1 class="mb-4 text-center">ユーザー一覧</h1>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped text-center">
+      <thead class="thead-dark">
+        <tr>
+          <th>プロフィール画像</th>
+          <th>名前</th>
+          <th>会社名</th>
+          <th>業種</th>
+          <th>フォロー数</th>
+          <th>フォロワー数</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td>
+              <% if user.profile_image_url.present? %>
+                <%= image_tag user.profile_image_url, alt: user.full_name, class: "img-thumbnail profile-image" %>
+              <% else %>
+                <%= image_tag 'no_image.jpg', alt: 'デフォルト画像', class: "img-thumbnail profile-image" %>
+              <% end %>
+            </td>
+            <td><%= link_to user.full_name, user_path(user), class: "text-primary" %></td>
+            <td><%= user.company_name %></td>
+            <td><%= user.industry %></td>
+            <td><%= link_to user.followings.count, followings_user_path(user), class: "text-info" %></td>
+            <td><%= link_to user.followers.count, followers_user_path(user), class: "text-info" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">投稿詳細</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h2><%= @post.title %></h2>
+        </div>
+        <div class="card-body">
+          <p><strong>作成者:</strong> <%= @post.user.full_name %></p>
+          <p><strong>作成日:</strong> <%= @post.created_at.strftime('%Y-%m-%d') %></p>
+          <p><strong>必要業種:</strong> <%= @post.industry %></p>
+          <p><strong>期間:</strong> <%= @post.duration %></p>
+          <p><strong>場所:</strong> <%= @post.location %></p>
+          <p><strong>連絡先:</strong> <%= @post.contact_info %></p>
+          <p><%= @post.content %></p>
+
+          <!-- コメント一覧 -->
+          <div class="comments mt-4">
+            <h3>コメント</h3>
+            <% if @post.comments.any? %>
+              <div class="list-group">
+                <% @post.comments.each do |comment| %>
+                  <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                      <% if comment.user.profile_image.attached? %>
+                        <%= image_tag comment.user.get_profile_image, size: '50x50', class: 'img-thumbnail me-2' %>
+                      <% else %>
+                        <%= image_tag 'no_image.jpg', size: '50x50', class: 'img-thumbnail me-2' %>
+                      <% end %>
+                      <div>
+                        <strong><%= link_to comment.user.full_name, admin_user_path(comment.user), class: 'text-primary' %></strong>
+                        <p class="mb-0 text-muted"><%= comment.content %></p>
+                      </div>
+                    </div>
+                    <% if comment.user == current_user %>
+                      <%= button_to "削除", post_comment_path(@post, comment), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "本当に削除しますか？" } %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <p>コメントはありません。</p>
+            <% end %>
+          </div>
+        </div>
+        <div class="card-footer text-right">
+          <%= link_to '戻る', admin_posts_path, class: 'btn btn-secondary' %>
+          <%= link_to '削除', admin_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
