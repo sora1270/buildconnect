@@ -1,42 +1,45 @@
+<html>
 <head>
   <title>WorkGithub</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   <script src="https://kit.fontawesome.com/0edaaf4d35.js" crossorigin="anonymous"></script>
-  <!--各自のフォントURLを設定してください -->
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .navbar-custom {
+      width: 100%;
+    }
+    .navbar-custom .container {
+      max-width: 100%;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  </style>
 </head>
 
 <body>
   <header>
-    <div class="container border-bottom">
-      <div class="row">
-        <div class="mx-5">
-          <% if admin_signed_in? %>
-            <%= image_tag("icon.jpg", size: "120x150", class: "icon-image") %>
-          <% elsif user_signed_in? %>
-            <%= link_to root_path do %>
-              <%= image_tag("icon.jpg", size: "120x150", class: "icon-image") %>
-            <% end %>
-          <% else %>
-            <%= link_to root_path do %>
-              <%= image_tag("icon.jpg", size: "120x150", class: "icon-image") %>
-            <% end %>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom navbar-custom">
+      <div class="container" style="margin-right: 20px;">
+        <% if admin_signed_in? %>
+          <%= image_tag("icon.jpg", size: "120x120", class: "navbar-brand icon-image") %>
+        <% else %>
+          <%= link_to root_path, class: 'navbar-brand' do %>
+            <%= image_tag("icon.jpg", size: "120x120", class: "icon-image") %>
           <% end %>
-        </div>
-        <div class="col">
-          <% if user_signed_in? %>
-            <div class="col mt-4 pt-3 text-center">
-              <p>ようこそ、<%= current_user.last_name %>さん！</p>
-            </div>
-          <% end %>
-        </div>
+        <% end %>
 
-        <div class="mt-4">
-          <ul class="d-flex list-unstyled justify-content-end">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
             <% if admin_signed_in? %>
               <%= render 'layouts/admin_header' %>
             <% elsif user_signed_in? %>
@@ -45,33 +48,39 @@
               <%= render 'layouts/userheader_guest' %>
             <% end %>
           </ul>
-        </div>
-      </div>
 
-      <!-- 検索フォーム -->
-      <div class="ml-auto mb-2 d-flex justify-content-end">
-        <%= form_with url: search_path, method: :get, local: true, class: 'form-inline' do %>
-        <div class="input-group">
-          <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <!-- 検索フォーム -->
+          <div class="ml-auto d-flex align-items-center">
+            <%= form_with url: search_path, method: :get, local: true, class: 'form-inline' do %>
+              <div class="input-group">
+                <input class="form-control mr-sm-2" type="search" name="content" placeholder="Search" aria-label="Search">
+                <select class="form-control mr-sm-2" name="model">
+                  <option value="user">ユーザー</option>
+                  <option value="post">投稿</option>
+                </select>
+                <select class="form-control mr-sm-2" name="method">
+                  <option value="perfect">完全一致</option>
+                  <option value="partial" selected>部分一致</option>
+                </select>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </div>
+            <% end %>
+          </div>
+          <!-- 検索フォーム終わり -->
         </div>
-        <% end %>
       </div>
-      <!-- 検索フォーム終わり -->
-    </div>
+    </nav>
   </header>
 
-  <main>
+  <main class="container mt-4">
     <%= yield %>
-
     <div style="height: 190px;"></div>
   </main>
 
-  <footer class="fixed-bottom" style="background-color: white;">
-    <div class="container my-3 border-top text-center">
-      <div class="py-5">
-        <h3 style="font-family: Monotype Corsiva; color: gray;">buildconnect</h3>
-      </div>
+
+  <footer class="fixed-bottom bg-white border-top text-center py-3">
+    <div class="container">
+      <h3 style="font-family: Monotype Corsiva; color: gray;">buildconnect</h3>
     </div>
   </footer>
 </body>

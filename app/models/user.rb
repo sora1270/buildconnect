@@ -48,17 +48,22 @@ class User < ApplicationRecord
     "#{last_name_kana} #{first_name_kana}".strip
   end
   
-  def self.search_for(content, method)
-    content ||= ''  # contentがnilの場合は空文字列を代入
-
-    if method == 'perfect'
-      User.where('full_name = ? OR email = ?', content, content)
-    elsif method == 'forward'
-      User.where('full_name LIKE ? OR email LIKE ?', "#{content}%", "#{content}%")
-    elsif method == 'backward'
-      User.where('full_name LIKE ? OR email LIKE ?', "%#{content}", "%#{content}")
-    else
-      User.where('full_name LIKE ? OR email LIKE ?', "%#{content}%", "%#{content}%")
+  def self.search_for(content, search_method)
+    if content.present?
+      content = convert_katakana_to_hiragana(content)
     end
+
+    case search_method
+    when 'partial'
+      where('last_name LIKE :content OR first_name LIKE :content OR last_name_kana LIKE :content OR first_name_kana LIKE :content', content: "%#{content}%")
+    else
+      all
+    end
+  end
+
+  private
+
+  def self.convert_katakana_to_hiragana(text)
+    text.tr("ァィゥェォカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン", "ぁぃぅぇぉかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん")
   end
 end

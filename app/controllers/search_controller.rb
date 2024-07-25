@@ -1,16 +1,13 @@
 class SearchController < ApplicationController
   def index
     @model = params[:model]
-    @content = params[:content].presence || ''
-    @method = params[:method].presence || 'forward'  # デフォルトの検索方法を指定
+    @content = params[:content]
+    @method = params[:method]
 
-    case @model
-    when 'user'
+    if @model == 'user'
       @records = User.search_for(@content, @method)
-    when 'post'
-      @records = Post.search_for(@content, @method)
     else
-      @records = []  # モデルが無効な場合は空の配列を返す
+      @records = Post.search_for(@content, @method)
     end
   end
 end
