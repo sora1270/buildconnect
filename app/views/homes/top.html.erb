@@ -1,7 +1,11 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <%= render 'layouts/user_sidebar' %>
-    <div class="col-md-9">
+    <% if user_signed_in? %>
+      <%= render 'layouts/user_sidebar' %>
+      <div class="col-md-9">
+    <% else %>
+      <div class="col-md-12">
+    <% end %>
       <h4 class="mt-3"><strong>新着投稿</strong></h4>
       <div class="row">
         <% if @posts.any? %>
@@ -15,7 +19,13 @@
                   <p class="card-text">
                     <strong>募集業種:</strong> <%= post.industry %><br>
                     <strong>期間:</strong> <%= post.duration %><br>
-                    <strong>場所:</strong> <%= post.location %>
+                    <strong>場所:</strong> <%= post.location %><br>
+                    <strong>募集人数:</strong> <%= "#{post.current_recruits}/#{post.number_of_recruits}" %><br>
+                    <% if post.application_deadline.present? %>
+                      <strong>応募締切:</strong> <%= post.application_deadline.strftime("%Y-%m-%d") %> (残り <%= post.days_remaining %> 日)
+                    <% else %>
+                      <strong>応募締切:</strong> 設定なし
+                    <% end %>
                   </p>
                 </div>
                 <div class="card-footer text-muted">
@@ -31,9 +41,8 @@
         <% end %>
       </div>
 
-      <div class="mb-3 text-right">
-        <%= link_to "全ての投稿を見る＞", posts_path %>
+      <div class="text-right mt-4">
+        <%= link_to "全ての投稿を見る", posts_path, class: "btn btn-secondary" %>
       </div>
-    </div>
   </div>
 </div>

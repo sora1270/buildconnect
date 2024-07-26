@@ -42,11 +42,15 @@
           <li class="list-group-item mb-3">
             <h4><%= link_to post.title, post_path(post) %></h4>
             <ul class="list-unstyled">
-              <div class="card-body text-muted">
-                <li><strong>募集業種:</strong> <%= post.industry %></li>
-                <li><strong>期間:</strong> <%= post.duration %></li>
-                <li><strong>場所:</strong> <%= post.location %></li>
-              </div>
+              <li><strong>募集業種:</strong> <%= post.industry %></li>
+              <li><strong>期間:</strong> <%= post.duration %></li>
+              <li><strong>場所:</strong> <%= post.location %></li>
+              <li><strong>募集人数:</strong> <%= "#{post.current_recruits}/#{post.number_of_recruits}" %></li>
+              <% if post.application_deadline.present? %>
+                <li><strong>応募締切:</strong> <%= post.application_deadline.strftime("%Y-%m-%d") %> (残り <%= post.days_remaining %> 日)</li>
+              <% else %>
+                <li><strong>応募締切:</strong> 設定なし</li>
+              <% end %>
             </ul>
             <span>
               <small><%= post.created_at.strftime("%Y-%m-%d %H:%M") %></small>

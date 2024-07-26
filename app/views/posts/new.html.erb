@@ -27,6 +27,26 @@
   </div>
   
   <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
+    <%= form.label :requirements, "応募条件" %>
+    <%= form.text_area :requirements, class: "form-control" %>
+  </div>
+
+  <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
+    <%= form.label :payment_schedule, "支払いスケジュール" %>
+    <%= form.text_area :payment_schedule, class: "form-control" %>
+  </div>
+
+  <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
+    <%= form.label :number_of_recruits, "募集人数" %>
+    <%= form.number_field :number_of_recruits, class: "form-control" %>
+  </div>
+
+  <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
+    <%= form.label :application_deadline, "応募締切" %>
+    <%= form.date_field :application_deadline, class: "form-control" %>
+  </div>
+  
+  <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
     <%= form.label :content, "概要" %>
     <%= form.text_area :content, class: "form-control", style: "height: 200px;" %>
   </div>

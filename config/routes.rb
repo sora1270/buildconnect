@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   # Posts routes for general users
   resources :posts, except: [:destroy] do
     resources :comments, only: [:create, :destroy]
+    member do
+      patch :update_recruit_status
+    end
   end
 
   # Companies routes
