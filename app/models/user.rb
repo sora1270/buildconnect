@@ -14,11 +14,14 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy
 
+  belongs_to :genre
+
   has_one_attached :profile_image
 
   validates :last_name, :first_name, presence: true
   validates :phone_number, presence: true, allow_blank: true
-  
+  validates :industry, presence: true, inclusion: { in: Genre.pluck(:id) }
+
   def get_profile_image
     if profile_image.attached?
       profile_image
@@ -43,11 +46,11 @@ class User < ApplicationRecord
   def full_name
     "#{last_name} #{first_name}".strip
   end
-  
+
   def full_name_kana
     "#{last_name_kana} #{first_name_kana}".strip
   end
-  
+
   def self.search_for(content, search_method)
     if content.present?
       content = convert_katakana_to_hiragana(content)

@@ -1,0 +1,11 @@
+<div class="container mt-4">
+  <h1 class="mb-4">業種一覧</h1>
+
+  <div class="list-group">
+    <% @genres.each do |genre| %>
+      <a href="<%= genre_path(genre) %>" class="list-group-item list-group-item-action">
+        <%= genre.name %>
+      </a>
+    <% end %>
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_07_26_182451) do
+ActiveRecord::Schema.define(version: 2024_07_27_162938) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -91,6 +91,11 @@ ActiveRecord::Schema.define(version: 2024_07_26_182451) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "genres_posts", id: false, force: :cascade do |t|
+    t.integer "post_id", null: false
+    t.integer "genre_id", null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -125,7 +130,7 @@ ActiveRecord::Schema.define(version: 2024_07_26_182451) do
     t.string "first_name_kana", default: "", null: false
     t.string "phone_number", default: "", null: false
     t.string "company_name", default: "", null: false
-    t.string "industry", default: "", null: false
+    t.string "industry", null: false
     t.string "email", default: "", null: false
     t.boolean "is_active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
@@ -144,6 +149,8 @@ ActiveRecord::Schema.define(version: 2024_07_26_182451) do
     t.string "contact_info"
     t.string "avatar"
     t.string "profile_image_url"
+    t.integer "genre_id"
+    t.index ["genre_id"], name: "index_users_on_genre_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

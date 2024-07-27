@@ -1,26 +1,15 @@
 class Post < ApplicationRecord
   belongs_to :user
+  has_and_belongs_to_many :genres
   has_many :comments, dependent: :destroy
 
-  validates :title, presence: true
-  validates :industry, presence: true
-  validates :duration, presence: true
-  validates :location, presence: true
-  validates :contact_info, presence: true
-  validates :requirements, presence: true
-  validates :payment_schedule, presence: true
-  validates :number_of_recruits, presence: true
-  validates :application_deadline, presence: true
-  validates :content, presence: true
+  # バリデーションの追加
+  validates :title, :duration, :location, :contact_info, :requirements, :payment_schedule, :number_of_recruits, :application_deadline, :content, presence: true
   validates :current_recruits, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-
-  # 現在の募集人数
+  # 現在の募集人数を取得するメソッド
   def current_recruits
-    # 現在の募集人数を返すロジックをここに追加
-    # 例えば、コメントの数や別の関連モデルから取得する
-    # ここでは仮に0を返す
-    0
+    read_attribute(:current_recruits) || 0
   end
 
   # 残りの日数を計算するメソッド
@@ -48,9 +37,9 @@ class Post < ApplicationRecord
   # ステータスを「募集終了」に更新するメソッド
   def update_recruit_status
     if recruits_filled?
-      self.update(status: '募集終了')
+      update(status: '募集終了')
     else
-      self.update(status: "#{current_recruits}/#{number_of_recruits}")
+      update(status: "#{current_recruits}/#{number_of_recruits}")
     end
   end
 
@@ -65,7 +54,7 @@ class Post < ApplicationRecord
     when 'partial'
       where('title LIKE ?', "%#{content}%")
     else
-      none # 無効な検索方法が指定された場合の処理
+      none
     end
   end
 end

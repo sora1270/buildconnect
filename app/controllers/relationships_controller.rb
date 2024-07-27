@@ -3,23 +3,50 @@ class RelationshipsController < ApplicationController
 
   def create
     user = User.find(params[:followed_id])
-    current_user.follow(user)
-    redirect_to user
+    
+    if user
+      current_user.follow(user)
+      flash[:notice] = "フォローしました"
+    else
+      flash[:alert] = "ユーザーが見つかりません"
+    end
+
+    redirect_to user_path(user)
   end
 
   def destroy
-    user = Relationship.find(params[:id]).followed
-    current_user.unfollow(user)
-    redirect_to user
+    relationship = Relationship.find_by(id: params[:id])
+    
+    if relationship
+      user = relationship.followed
+      current_user.unfollow(user)
+      flash[:notice] = "フォローを解除しました"
+    else
+      flash[:alert] = "フォロー関係が見つかりません"
+    end
+
+    redirect_to user_path(user)
   end
 
   def followings
-    user = User.find(params[:user_id])
-    @users = user.followings
+    @user = User.find(params[:user_id])
+    
+    if @user
+      @users = @user.followings
+    else
+      flash[:alert] = "ユーザーが見つかりません"
+      @users = []
+    end
   end
 
   def followers
-    user = User.find(params[:user_id])
-    @users = user.followers
+    @user = User.find(params[:user_id])
+    
+    if @user
+      @users = @user.followers
+    else
+      flash[:alert] = "ユーザーが見つかりません"
+      @users = []
+    end
   end
 end

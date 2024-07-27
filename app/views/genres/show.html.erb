@@ -1,0 +1,14 @@
+<div class="card-body">
+  <h5 class="card-title">この職種で登録しているユーザー</h5>
+  <% if @users.any? %>
+    <ul class="list-group">
+      <% @users.each do |user| %>
+        <li class="list-group-item">
+          <%= user.full_name %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>この職種で登録しているユーザーはいません。</p>
+  <% end %>
+</div>

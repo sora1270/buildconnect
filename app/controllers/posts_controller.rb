@@ -12,6 +12,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @genres = Genre.all
   end
 
   def create
@@ -26,6 +27,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+    @genres = Genre.all
   end
 
   def update
@@ -43,10 +45,12 @@ class PostsController < ApplicationController
   end
 
   def update_recruit_status
-    if @post.update(post_params.slice(:current_recruits))
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      @post.update_recruit_status
       redirect_to @post, notice: '募集人数が更新されました。'
     else
-      redirect_to @post, alert: '募集人数の更新に失敗しました。'
+      render :edit, alert: '募集人数の更新に失敗しました。'
     end
   end
 
@@ -57,6 +61,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :industry, :duration, :location, :contact_info, :requirements, :payment_schedule, :number_of_recruits, :application_deadline, :content, :current_recruits)
+    params.require(:post).permit(:title, :duration, :location, :contact_info, :requirements, :payment_schedule, :number_of_recruits, :application_deadline, :content, :current_recruits, genre_ids: [])
   end
 end

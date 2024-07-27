@@ -5,27 +5,36 @@
     <%= form.label :title, "タイトル" %>
     <%= form.text_field :title, class: "form-control" %>
   </div>
-  
+
   <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
-    <%= form.label :industry, "必要業種" %>
-    <%= form.text_field :industry, class: "form-control" %>
+  <%= form.label :genre_ids, "必要業種" %>
+  <div class="form-check">
+    <%= form.collection_check_boxes :genre_ids, @genres, :id, :name do |b| %>
+      <div class="form-check">
+        <%= b.check_box(class: "form-check-input") %>
+        <%= b.label(class: "form-check-label") do %>
+          <%= b.object.name %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
-  
+</div>
+
   <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
     <%= form.label :duration, "期間" %>
     <%= form.text_field :duration, class: "form-control" %>
   </div>
-  
+
   <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
     <%= form.label :location, "場所" %>
     <%= form.text_field :location, class: "form-control" %>
   </div>
-  
+
   <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
     <%= form.label :contact_info, "連絡先" %>
     <%= form.email_field :contact_info, class: "form-control", placeholder: "name@example.com" %>
   </div>
-  
+
   <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
     <%= form.label :requirements, "応募条件" %>
     <%= form.text_area :requirements, class: "form-control" %>
@@ -45,12 +54,12 @@
     <%= form.label :application_deadline, "応募締切" %>
     <%= form.date_field :application_deadline, class: "form-control" %>
   </div>
-  
+
   <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
     <%= form.label :content, "概要" %>
     <%= form.text_area :content, class: "form-control", style: "height: 200px;" %>
   </div>
-  
+
   <div class="text-center my-5">
     <%= form.submit "投稿", class: "btn btn-primary" %>
   </div>

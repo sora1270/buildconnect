@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  
+  before_action :set_genres
 
   #helper_method :admin_signed_in? # Devise ヘルパーをビューで使用可能にする
 
@@ -28,5 +28,11 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [
       :last_name, :first_name, :last_name_kana, :first_name_kana, :phone_number, :company_name, :industry, :profile_image
     ])
+  end
+  
+  private
+
+  def set_genres
+    @genres = Genre.all
   end
 end
