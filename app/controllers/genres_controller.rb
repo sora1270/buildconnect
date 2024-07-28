@@ -2,7 +2,7 @@ class GenresController < ApplicationController
   before_action :set_genre, only: [:show]
 
   def show
-    @users = @genre.users
+    @users = User.where(industry: @genre.name)
   end
 
   def index

@@ -2,6 +2,7 @@ class Post < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :genres
   has_many :comments, dependent: :destroy
+  has_many :groups, dependent: :destroy
 
   # バリデーションの追加
   validates :title, :duration, :location, :contact_info, :requirements, :payment_schedule, :number_of_recruits, :application_deadline, :content, presence: true

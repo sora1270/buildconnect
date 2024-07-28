@@ -13,14 +13,18 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :followed
 
   has_many :posts, dependent: :destroy
-
-  belongs_to :genre
+  
+  has_many :created_groups, class_name: 'Group', foreign_key: 'creator_id'
+  has_many :group_memberships
+  has_many :joined_groups, through: :group_memberships, source: :group
+  has_many :groups, through: :join_requests
+  has_many :join_requests
 
   has_one_attached :profile_image
 
   validates :last_name, :first_name, presence: true
   validates :phone_number, presence: true, allow_blank: true
-  validates :industry, presence: true, inclusion: { in: Genre.pluck(:id) }
+  validates :industry, presence: true
 
   def get_profile_image
     if profile_image.attached?

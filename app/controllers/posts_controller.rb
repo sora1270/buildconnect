@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :update_recruit_status]
   before_action :set_post, only: [:show, :edit, :update, :destroy, :update_recruit_status]
+  before_action :set_genres, only: [:new, :edit, :create, :update]
 
   def index
     @posts = Post.order(created_at: :desc)
@@ -8,11 +9,11 @@ class PostsController < ApplicationController
 
   def show
     @user = @post.user
+    
   end
 
   def new
     @post = Post.new
-    @genres = Genre.all
   end
 
   def create
@@ -27,7 +28,6 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @genres = Genre.all
   end
 
   def update
@@ -35,6 +35,7 @@ class PostsController < ApplicationController
       @post.update_recruit_status
       redirect_to @post, notice: "投稿が更新されました。"
     else
+      Rails.logger.debug "Post Errors: #{@post.errors.full_messages.join(', ')}"
       render :edit
     end
   end
@@ -45,11 +46,11 @@ class PostsController < ApplicationController
   end
 
   def update_recruit_status
-    @post = Post.find(params[:id])
     if @post.update(post_params)
       @post.update_recruit_status
       redirect_to @post, notice: '募集人数が更新されました。'
     else
+      Rails.logger.debug "Post Errors: #{@post.errors.full_messages.join(', ')}"
       render :edit, alert: '募集人数の更新に失敗しました。'
     end
   end
@@ -58,6 +59,10 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def set_genres
+    @genres = Genre.all
   end
 
   def post_params

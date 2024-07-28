@@ -1,0 +1,37 @@
+<div class="container mt-5">
+  <h1>参加申請一覧</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ユーザー名</th>
+        <th>ステータス</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @group.join_requests.each do |join_request| %>
+        <tr>
+          <td><%= link_to join_request.user.full_name, user_path(join_request.user) %></td>
+          <td>
+            <% if join_request.pending? %>
+              <span class="badge bg-warning">保留中</span>
+            <% elsif join_request.approved? %>
+              <span class="badge bg-success">承認済み</span>
+            <% elsif join_request.rejected? %>
+              <span class="badge bg-danger">拒否済み</span>
+            <% elsif join_request.canceled? %>
+              <span class="badge bg-secondary">キャンセル済み</span>
+            <% end %>
+          </td>
+          <td>
+            <% if join_request.pending? %>
+              <%= button_to '承認', approve_post_group_join_request_path(@group.post, @group, join_request), method: :post, class: 'btn btn-success btn-sm me-2' %>
+              <%= button_to '拒否', reject_post_group_join_request_path(@group.post, @group, join_request), method: :post, class: 'btn btn-danger btn-sm' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

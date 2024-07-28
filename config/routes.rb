@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'groups/index'
+    get 'groups/show'
+    get 'groups/new'
+    get 'groups/create'
+    get 'groups/edit'
+    get 'groups/update'
+    get 'groups/destroy'
+  end
   # Admin namespace
   devise_for :admins, controllers: { 
     sessions: 'admin/sessions'
@@ -9,11 +18,25 @@ Rails.application.routes.draw do
     resources :homes, only: [:top]
     resources :posts
     resources :users, only: [:index, :show, :destroy] # 管理者用のユーザー一覧
+    resources :groups, only: [:index, :show, :edit, :update, :destroy]
   end
-  
+
   # Posts routes for general users
   resources :posts do
-    resources :comments, only: [:create, :destroy]
+    resources :comments, only: [:create, :edit, :update, :destroy]
+    resources :groups, only: [:create, :show, :update, :destroy] do
+      member do
+        get :members
+        post :join
+      end
+      resources :join_requests, only: [:index, :create, :update, :destroy] do
+        member do
+          post :approve
+          post :reject
+          post :re_request
+        end
+      end
+    end
     member do
       patch :update_recruit_status
     end

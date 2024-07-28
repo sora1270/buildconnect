@@ -53,6 +53,56 @@
         </div>
       <% end %>
 
+      <!-- グループ管理 -->
+      <div class="mt-4">
+          <h3>グループ管理</h3>
+          <% if @post.groups.any? %>
+            <h4>既存のグループ</h4>
+            <ul>
+              <% @post.groups.each do |group| %>
+                <li>
+                  <%= group.name %>
+                  <div class="d-flex">
+                    <% if group.user == current_user %>
+                      <%= link_to '参加申請一覧', members_post_group_path(@post, group), class: 'btn btn-secondary btn-sm me-2' %>
+                      <%= link_to '参加中ユーザー', post_groups_path(@post, group), class: 'btn btn-info btn-sm me-2' %>
+                      <%= button_to '削除', post_group_path(@post, group), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+                    <% else %>
+                      <% if !group.join_requested_by?(current_user) %>
+                        <%= button_to '参加申請', post_group_join_requests_path(@post, group), method: :post, class: 'btn btn-primary btn-sm me-2' %>
+                      <% else %>
+                        <% if group.join_canceled_by?(current_user) %>
+                          <% join_request = group.join_requests.find_by(user: current_user) %>
+                          <%= button_to '参加申請', re_request_post_group_join_request_path(@post, group, join_request), method: :post, class: 'btn btn-primary btn-sm me-2' %>
+                        <% else %>
+                          <% join_request = group.join_requests.find_by(user: current_user) %>
+                          <%= button_to '申請をキャンセル', post_group_join_request_path(@post, group, join_request), method: :delete, class: 'btn btn-warning btn-sm me-2' %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p>グループはまだありません。</p>
+          <% end %>
+        </div>
+        
+      <!-- グループ作成フォーム (投稿者のみ表示) -->
+      <% if @post.user == current_user %>
+        <div class="mt-4">
+          <h4>新しいグループを作成</h4>
+          <%= form_with(model: [@post, Group.new], local: true) do |f| %>
+            <div class="form-group">
+              <%= f.label :name, "グループ名" %>
+              <%= f.text_field :name, class: "form-control" %>
+            </div>
+            <%= f.submit "作成", class: "btn btn-primary mt-2" %>
+          <% end %>
+        </div>
+      <% end %>
+
       <!-- コメント一覧 -->
       <div class="comments mt-4">
         <h3>コメント</h3>
@@ -63,21 +113,27 @@
                 <%= image_tag comment.user.get_profile_image, size: '50x50', class: 'img-thumbnail me-2' %>
                 <p class="mb-0"><strong><%= link_to comment.user.full_name, user_path(comment.user) %></strong></p>
               </div>
-              <p><%= comment.content %></p>
+              <p class="card-text"><%= comment.body %></p>
               <% if comment.user == current_user %>
-                <%= button_to "削除", post_comment_path(@post, comment), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "本当に削除しますか？" } %>
+                <div class="d-flex">
+                  <%= link_to '編集', edit_post_comment_path(@post, comment), class: 'btn btn-sm btn-secondary me-2' %>
+                  <%= button_to '削除', post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-sm btn-danger' %>
+                </div>
               <% end %>
             </div>
           </div>
         <% end %>
+      </div>
 
-        <!-- コメントフォーム -->
-        <%= form_with(model: [@post, @post.comments.build], local: true) do |form| %>
-          <div class="mb-3">
-            <%= form.label :content, 'コメント', class: 'form-label' %>
-            <%= form.text_area :content, class: 'form-control', rows: 3 %>
+      <!-- コメントフォーム -->
+      <div class="comment-form mt-4">
+        <h4>コメントを投稿する</h4>
+        <%= form_with(model: [@post, Comment.new], local: true) do |f| %>
+          <div class="form-group">
+            <%= f.label :body, "コメント" %>
+            <%= f.text_area :body, class: "form-control" %>
           </div>
-          <%= form.submit 'コメントを投稿', class: 'btn btn-primary' %>
+          <%= f.submit "投稿", class: "btn btn-primary mt-2" %>
         <% end %>
       </div>
     </div>

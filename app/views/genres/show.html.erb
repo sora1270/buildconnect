@@ -1,14 +1,18 @@
-<div class="card-body">
-  <h5 class="card-title">この職種で登録しているユーザー</h5>
-  <% if @users.any? %>
-    <ul class="list-group">
-      <% @users.each do |user| %>
-        <li class="list-group-item">
-          <%= user.full_name %>
-        </li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p>この職種で登録しているユーザーはいません。</p>
-  <% end %>
+<div class="card mt-3">
+  <div class="card-header">
+    <h5 class="card-title mb-0">この職種で登録しているユーザー</h5>
+  </div>
+  <div class="card-body">
+    <% if @users.any? %>
+      <ul class="list-group">
+        <% @users.each do |user| %>
+          <li class="list-group-item">
+            <%= link_to user.full_name, user_path(user), class: 'text-decoration-none' %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-muted">この職種で登録しているユーザーはいません。</p>
+    <% end %>
+  </div>
 </div>
