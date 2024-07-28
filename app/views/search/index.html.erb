@@ -11,7 +11,7 @@
               <p><%= record.email %></p>
             <% else %>
               <h5><%= link_to record.title, post_path(record) %></h5>
-              <p><strong>業種:</strong> <%= record.industry %></p>
+              <p><strong>募集業種:</strong><%= user.industry %>
               <p><strong>期間:</strong> <%= record.duration %></p>
               <p><strong>場所:</strong> <%= record.location %></p>
             <% end %>

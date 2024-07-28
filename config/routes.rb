@@ -1,25 +1,27 @@
 Rails.application.routes.draw do
   namespace :admin do
-    get 'groups/index'
-    get 'groups/show'
-    get 'groups/new'
-    get 'groups/create'
-    get 'groups/edit'
-    get 'groups/update'
-    get 'groups/destroy'
+    get 'comments/index'
   end
-  # Admin namespace
-  devise_for :admins, controllers: { 
-    sessions: 'admin/sessions'
-  }
-  
+  # Admin namespace for admin functionalities
   namespace :admin do
-    resources :genres, only: [:index, :new, :create, :edit, :update, :show]
+    resources :genres, only: [:index, :new, :create, :edit, :update, :show, :destroy]
     resources :homes, only: [:top]
     resources :posts
     resources :users, only: [:index, :show, :destroy] # 管理者用のユーザー一覧
     resources :groups, only: [:index, :show, :edit, :update, :destroy]
+    resources :comments, only: [:index, :destroy]
   end
+  
+  # Devise routes for admin authentication
+  devise_for :admins, controllers: { 
+    sessions: 'admin/sessions'
+  }
+
+  # Devise routes for user authentication
+  devise_for :users, controllers: {
+    registrations: 'user/registrations',
+    sessions: 'user/sessions'
+  }
 
   # Posts routes for general users
   resources :posts do
@@ -44,12 +46,6 @@ Rails.application.routes.draw do
 
   # Companies routes
   resources :companies, only: [:new]
-
-  # Devise for user authentication
-  devise_for :users, controllers: {
-    registrations: 'user/registrations',
-    sessions: 'user/sessions'
-  }
 
   # User routes
   resources :users, only: [:index, :show, :edit, :update, :destroy] do

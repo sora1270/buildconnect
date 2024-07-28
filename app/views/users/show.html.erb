@@ -19,7 +19,7 @@
         <thead>
           <tr>
             <th>タイトル</th>
-            <th>業種</th>
+            <th>募集人数</th>
             <th>期間</th>
             <th>場所</th>
           </tr>
@@ -28,7 +28,7 @@
           <% @user.posts.each do |post| %>
             <tr>
               <td><%= link_to post.title, post_path(post) %></td>
-              <td><%= post.industry %></td>
+              <td><%= post.recruit_status %></td>
               <td><%= post.duration %></td>
               <td><%= post.location %></td>
             </tr>

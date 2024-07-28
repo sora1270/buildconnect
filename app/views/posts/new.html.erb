@@ -1,24 +1,35 @@
 <h1 class="text-center">新しい投稿</h1>
 
 <%= form_with model: @post, local: true do |form| %>
+  <% if @post.errors.any? %>
+    <div class="alert alert-danger">
+      <h4>エラーが発生しました:</h4>
+      <ul>
+        <% @post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
     <%= form.label :title, "タイトル" %>
     <%= form.text_field :title, class: "form-control" %>
   </div>
 
   <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
-  <%= form.label :genre_ids, "必要業種" %>
-  <div class="form-check">
-    <%= form.collection_check_boxes :genre_ids, @genres, :id, :name do |b| %>
-      <div class="form-check">
-        <%= b.check_box(class: "form-check-input") %>
-        <%= b.label(class: "form-check-label") do %>
-          <%= b.object.name %>
-        <% end %>
-      </div>
-    <% end %>
+    <%= form.label :genre_ids, "必要業種" %>
+    <div class="form-check">
+      <%= form.collection_check_boxes :genre_ids, @genres, :id, :name do |b| %>
+        <div class="form-check">
+          <%= b.check_box(class: "form-check-input") %>
+          <%= b.label(class: "form-check-label") do %>
+            <%= b.object.name %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
-</div>
 
   <div class="col-md-5 col-sm-10 mx-auto rounded px-0 my-5">
     <%= form.label :duration, "期間" %>

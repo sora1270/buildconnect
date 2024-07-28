@@ -1,5 +1,5 @@
 <div class="container mt-5">
-  <h1 class="text-center">フォロワー</h1>
+  <h1 class="text-center">フォロー中のユーザー</h1>
   <div class="row justify-content-center">
     <div class="col-md-8">
       <% if @users.any? %>
@@ -14,14 +14,14 @@
                 <% if current_user.following?(user) %>
                   <%= link_to 'フォロー外す', relationship_path(current_user.relationships.find_by(followed_id: user.id)), method: :delete, class: 'btn btn-sm btn-info' %>
                 <% else %>
-                  <%= link_to 'フォローする', relationships_path(followed_id: user.id), method: :post, class: 'btn btn-sm btn-success' %>
+                  <%= link_to 'フォローする', user_relationships_path(user), method: :post, class: 'btn btn-sm btn-success' %>
                 <% end %>
               </div>
             </li>
           <% end %>
         </ul>
       <% else %>
-        <p class="text-center">フォロワーはいません。</p>
+        <p class="text-center">フォロー中のユーザーはいません。</p>
       <% end %>
     </div>
   </div>

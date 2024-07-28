@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <h1>参加申請一覧</h1>
 
-  <table class="table">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>ユーザー名</th>
@@ -12,16 +12,16 @@
     <tbody>
       <% @group.join_requests.each do |join_request| %>
         <tr>
-          <td><%= link_to join_request.user.full_name, user_path(join_request.user) %></td>
+          <td><%= link_to join_request.user.full_name, user_path(join_request.user), class: 'text-primary' %></td>
           <td>
             <% if join_request.pending? %>
-              <span class="badge bg-warning">保留中</span>
+              <span class="badge badge-warning">保留中</span>
             <% elsif join_request.approved? %>
-              <span class="badge bg-success">承認済み</span>
+              <span class="badge badge-success">承認済み</span>
             <% elsif join_request.rejected? %>
-              <span class="badge bg-danger">拒否済み</span>
+              <span class="badge badge-danger">拒否済み</span>
             <% elsif join_request.canceled? %>
-              <span class="badge bg-secondary">キャンセル済み</span>
+              <span class="badge badge-secondary">キャンセル済み</span>
             <% end %>
           </td>
           <td>
@@ -35,3 +35,4 @@
     </tbody>
   </table>
 </div>
+

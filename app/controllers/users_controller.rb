@@ -7,6 +7,12 @@ class UsersController < ApplicationController
   end
 
   def show
+    @posts = @user.posts
+  end
+
+  def users_mypage
+    @user = User.find(params[:id])
+    @posts = @user.posts
   end
 
   def edit
@@ -26,10 +32,24 @@ class UsersController < ApplicationController
   end
 
   def followings
+    @title = "フォロー中"
     @users = @user.followings
+    render 'show_follow'
   end
 
   def followers
+    @title = "フォロワー"
+    @users = @user.followers
+    render 'relationships/followers'
+  end
+
+  def following_list
+    @title = "フォロー中"
+    @users = @user.followings
+  end
+
+  def follower_list
+    @title = "フォロワー"
     @users = @user.followers
   end
 

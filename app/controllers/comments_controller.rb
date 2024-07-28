@@ -14,9 +14,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  def edit
-  end
-
   def update
     if @comment.update(comment_params)
       redirect_to @post, notice: 'コメントが更新されました。'
@@ -45,6 +42,6 @@ class CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:comment).permit(:content) # ここで `content` を使用
   end
 end

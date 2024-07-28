@@ -54,6 +54,10 @@ class User < ApplicationRecord
   def full_name_kana
     "#{last_name_kana} #{first_name_kana}".strip
   end
+  
+  def name
+    full_name
+  end
 
   def self.search_for(content, search_method)
     if content.present?

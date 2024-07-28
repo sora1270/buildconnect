@@ -10,6 +10,18 @@ class User::RegistrationsController < Devise::RegistrationsController
   def create
     super
   end
+  
+  def destroy
+    super do |resource|
+      # `super` が正常に処理された後に実行される
+      if resource.destroyed?
+        # サインアウト処理
+        sign_out(resource)
+        # 新規登録画面にリダイレクト
+        redirect_to new_user_registration_path and return
+      end
+    end
+  end
 
   protected
 

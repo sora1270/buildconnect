@@ -25,7 +25,7 @@
           <div class="mt-3">
             <%= link_to 'プロフィール編集', edit_user_registration_path, class: 'btn btn-primary btn-block' %>
           </div>
-          
+
           <!-- アカウント削除ボタン -->
           <div class="mt-2">
             <%= button_to 'アカウント削除', registration_path(current_user), method: :delete, data: { confirm: '本当にアカウントを削除しますか？' }, class: 'btn btn-danger btn-block' %>
