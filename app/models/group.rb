@@ -4,8 +4,9 @@ class Group < ApplicationRecord
   has_many :applications, class_name: 'GroupApplication', foreign_key: 'group_id', dependent: :destroy
   has_many :join_requests, dependent: :destroy
   has_many :members, through: :join_requests, source: :user
-  validates :name, presence: true
+  has_many :group_memberships, dependent: :destroy
   
+  validates :name, presence: true
   
   def join_requested_by?(user)
     join_requests.exists?(user: user)

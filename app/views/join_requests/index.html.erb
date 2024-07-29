@@ -14,13 +14,14 @@
         <tr>
           <td><%= link_to join_request.user.full_name, user_path(join_request.user) %></td>
           <td>
-            <% if join_request.pending? %>
+            <%= join_request.status %>
+            <% if join_request.status=="pending" %>
               <span class="badge bg-warning">保留中</span>
-            <% elsif join_request.approved? %>
+            <% elsif join_request.status=="approved" %>
               <span class="badge bg-success">承認済み</span>
-            <% elsif join_request.rejected? %>
+            <% elsif join_request.status=="rejected" %>
               <span class="badge bg-danger">拒否済み</span>
-            <% elsif join_request.canceled? %>
+            <% elsif join_request.status=="canceled" %>
               <span class="badge bg-secondary">キャンセル済み</span>
             <% end %>
           </td>

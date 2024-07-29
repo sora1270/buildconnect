@@ -26,21 +26,30 @@ Rails.application.routes.draw do
   # Posts routes for general users
   resources :posts do
     resources :comments, only: [:create, :edit, :update, :destroy]
+    
     resources :groups, only: [:create, :show, :update, :destroy] do
       member do
         get :members
         post :join
+        # `post :join` により、参加申請はグループのメンバーシップに関連するため、 `groups` のメンバーに設定
       end
+      
       resources :join_requests, only: [:index, :create, :update, :destroy] do
         member do
           post :approve
           post :reject
           post :re_request
+          # `post :re_request` のルートを追加
         end
       end
+      
+      resources :group_memberships, only: [:index]
+      # `group_memberships` のリソースを追加
     end
+    
     member do
       patch :update_recruit_status
+      # `patch :update_recruit_status` のルートを追加
     end
   end
 

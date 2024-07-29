@@ -4,7 +4,12 @@
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <h3 class="card-title">ユーザーのプロフィール</h3>
+          <h4 class="card-title">ユーザーのプロフィール</h4>
+          <% if @user.profile_image.attached? %>
+            <%= image_tag @user.profile_image, size: "150x150", class: 'img-thumbnail' %>
+          <% else %>
+            <%= image_tag 'no_image', size: "150x150", class: 'img-thumbnail' %>
+          <% end %>
           <p><strong>名前:</strong> <%= @user.full_name %></p>
           <p><strong>会社名:</strong> <%= @user.company_name %></p>
           <%= render 'relationships/btn', user: @user %>

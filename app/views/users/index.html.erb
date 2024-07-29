@@ -18,8 +18,12 @@
             <td><%= link_to user.full_name, user_path(user), class: "text-primary" %></td>
             <td><%= user.company_name %></td>
             <td><%= user.industry %></td>
-            <td><%= link_to user.followings.count, followings_user_path(user), class: "text-info" %></td>
-            <td><%= link_to user.followers.count, followers_user_path(user), class: "text-info" %></td>
+            <td>
+              <%= link_to "フォロー数: #{user.followings.count}", followings_user_path(user), class: 'btn btn-primary' %>
+            </td>
+            <td>
+              <%= link_to "フォロワー数: #{user.followers.count}", followers_user_path(user), class: 'btn btn-primary' %>
+            </td>
           </tr>
         <% end %>
       </tbody>

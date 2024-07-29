@@ -62,9 +62,9 @@
                 <li>
                   <%= group.name %>
                   <div class="d-flex">
+                    <%= link_to '参加中ユーザー', post_group_group_memberships_path(@post, group), class: 'btn btn-info btn-sm me-2' %>
                     <% if group.user == current_user %>
                       <%= link_to '参加申請一覧', post_group_path(@post, group), class: 'btn btn-secondary btn-sm me-2' %>
-                      <%= link_to '参加中ユーザー', post_groups_path(@post, group), class: 'btn btn-info btn-sm me-2' %>
                       <%= button_to '削除', post_group_path(@post, group), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
                     <% else %>
                       <% if !group.join_requested_by?(current_user) %>
@@ -91,10 +91,10 @@
       <!-- グループ作成フォーム (投稿者のみ表示) -->
       <% if @post.user == current_user %>
         <div class="mt-4">
-          <h4>新しいグループを作成</h4>
+          <h4>グループ説明を記入して作成</h4>
           <%= form_with(model: [@post, Group.new], local: true) do |f| %>
             <div class="form-group">
-              <%= f.label :name, "グループ名" %>
+              <%= f.label :name, "説明" %>
               <%= f.text_field :name, class: "form-control" %>
             </div>
             <%= f.submit "作成", class: "btn btn-primary mt-2" %>

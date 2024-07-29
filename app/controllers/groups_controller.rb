@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
   end
 
   def members
-    @members = @group.members # ここでメンバーの情報を取得
+    @members = @group.members
   end
 
   def create
@@ -32,17 +32,19 @@ class GroupsController < ApplicationController
 
   def approve
     if @join_request.update(status: :approved)
-      redirect_to members_post_group_path(@post, @group), notice: '参加申請を承認しました。'
+      # メンバーシップを作成
+      @group.group_memberships.create(user: @join_request.user)
+      redirect_to post_group_group_memberships_path(@post, @group), notice: '参加申請を承認しました。'
     else
-      redirect_to members_post_group_path(@post, @group), alert: '参加申請の承認に失敗しました。'
+      redirect_to post_group_group_memberships_path(@post, @group), alert: '参加申請の承認に失敗しました。'
     end
   end
 
   def reject
     if @join_request.update(status: :rejected)
-      redirect_to members_post_group_path(@post, @group), notice: '参加申請を拒否しました。'
+      redirect_to post_group_group_memberships_path(@post, @group), notice: '参加申請を拒否しました。'
     else
-      redirect_to members_post_group_path(@post, @group), alert: '参加申請の拒否に失敗しました。'
+      redirect_to post_group_group_memberships_path(@post, @group), alert: '参加申請の拒否に失敗しました。'
     end
   end
 

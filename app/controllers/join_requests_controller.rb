@@ -10,7 +10,7 @@ class JoinRequestsController < ApplicationController
       redirect_to post_path(@group.post), alert: '参加申請の送信に失敗しました。'
     end
   end
-  
+
   def re_request
      @join_request.update(status: "pending")
     redirect_to post_path(@group.post), notice: '参加申請を送信しました。'
