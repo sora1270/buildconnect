@@ -96,16 +96,6 @@ ActiveRecord::Schema.define(version: 2024_07_28_100304) do
     t.integer "genre_id", null: false
   end
 
-  create_table "group_applications", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "group_id", null: false
-    t.string "status"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["group_id"], name: "index_group_applications_on_group_id"
-    t.index ["user_id"], name: "index_group_applications_on_user_id"
-  end
-
   create_table "group_memberships", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "group_id", null: false
@@ -180,7 +170,7 @@ ActiveRecord::Schema.define(version: 2024_07_28_100304) do
     t.string "first_name_kana", default: "", null: false
     t.string "phone_number", default: "", null: false
     t.string "company_name", default: "", null: false
-    t.string "industry", null: false
+    t.string "industry", default: "", null: false
     t.string "email", default: "", null: false
     t.boolean "is_active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
@@ -206,8 +196,6 @@ ActiveRecord::Schema.define(version: 2024_07_28_100304) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
-  add_foreign_key "group_applications", "groups"
-  add_foreign_key "group_applications", "users"
   add_foreign_key "group_memberships", "groups"
   add_foreign_key "group_memberships", "users"
   add_foreign_key "groups", "posts"
