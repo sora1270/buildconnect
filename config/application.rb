@@ -10,7 +10,7 @@ module BuildConnect
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
-    config.middleware.delete(Rack::MiniProfiler)
+    #config.middleware.delete(Rack::MiniProfiler)
     
     config.i18n.default_locale = :ja
 
