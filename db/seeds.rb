@@ -7,7 +7,4 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-Admin.create!(
-  email: 'test@test',
-  password: '000000',
-)
+load(Rails.root.join('db', 'seeds', "#{Rails.env.downcase}.rb"))
