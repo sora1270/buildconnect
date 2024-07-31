@@ -31,6 +31,7 @@ class GroupsController < ApplicationController
   end
 
   def approve
+    @join_request = @group.join_requests.build(user: current_user)
     if @join_request.update(status: :approved)
       # メンバーシップを作成
       @group.group_memberships.create(user: @join_request.user)
@@ -41,6 +42,7 @@ class GroupsController < ApplicationController
   end
 
   def reject
+    @join_request = @group.join_requests.build(user: current_user)
     if @join_request.update(status: :rejected)
       redirect_to post_group_group_memberships_path(@post, @group), notice: '参加申請を拒否しました。'
     else
@@ -49,6 +51,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    @group = Group.find(params[:id])
     @group.destroy
     redirect_to post_path(@post), notice: 'グループが削除されました。'
   end
